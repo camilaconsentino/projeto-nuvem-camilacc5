@@ -1,0 +1,27 @@
+services:
+  app:
+    # build: ./app
+    container_name: fastapi_app
+    image: camilaconsentino/projetonuvem-camilacc5:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+       SECRET_KEY: ${SECRET_KEY:-my_secret_key}
+       DATABASE_HOST: db
+       DATABASE_USER: ${DATABASE_USER:-projeto}
+       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-projeto}
+       DATABASE_NAME: ${DATABASE_NAME:-projeto}
+       ALGORITHM: HS256
+
+  db:
+    container_name: postgres_db
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-projeto}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-projeto}
+      POSTGRES_USER: ${DATABASE_USER:-projeto}
+      POSTGRES_HOST: ${DATABASE_HOST:-db}
+    ports:
+      - "5432:5432"

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-app
+  labels:
+    app: fastapi
+    owner: camilaconsentino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi
+  template:
+    metadata:
+      labels:
+        app: fastapi
+    spec:
+      containers:
+        - name: fastapi-app
+          image: camilaconsentino/projetonuvem-camilacc5:latest  # Aqui você coloca a imagem do DockerHub
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://projeto:projeto@postgres:5432/projeto"  # Aqui se conecta com o PostgreSQL
+            - name: SECRET_KEY
+              value: "your_secret_key"  # Certifique-se de usar uma chave secreta mais segura em produção
+            - name: DATABASE_HOST
+              value: postgres
+            - name: DATABASE_NAME
+              value: projeto
+            - name: DATABASE_USER
+              value: projeto
+            - name: DATABASE_PASSWORD
+              value: projeto
+            - name: ALGORITHM
+              value: HS256
